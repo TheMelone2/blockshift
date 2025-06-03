@@ -69,3 +69,5 @@ Then open [http://localhost:8080](http://localhost:8080).
 ## License
 
 MIT License
+
+[![Deploy to GitHub Pages](https://github.com/TheMelone2/blockshift/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/TheMelone2/blockshift/actions/workflows/gh-pages.yml)
