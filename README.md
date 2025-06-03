@@ -1,8 +1,7 @@
 # Blockshift: A Minecraft Texture Pack Converter (1.21.5)
 
-:::info
-This project is not affiliated with Mojang or Microsoft. It is an independent tool created for educational and personal use. I know I'm not the best developer, but I hope this tool is useful to you! Tried to keep it simple and functional and create good documentation.
-:::
+> [!NOTE]
+> This project is not affiliated with Mojang or Microsoft. It is an independent tool created for educational and personal use. I know I'm not the best developer, but I hope this tool is useful to you! Tried to keep it simple and functional and create good documentation.
 
 A browser-based tool to convert old Minecraft texture packs to the 1.21.5 format.  
 **No files are uploaded to a server. All conversion is done in your browser.**
