@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Minecraft Texture Pack Converter (1.21.5)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/style.css">
+  <link rel="stylesheet" href="/styles/styles.editor.css">
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>
+      Minecraft Texture Pack Converter
+      <span>for 1.21.5</span>
+    </h1>
+  </header>
+  <div class="step-panel">
+    <label for="zipInput">Step 1: Select or drop a texture pack (.zip)</label>
+    <div id="dropzone" class="dropzone">Drop .zip file here or click to select</div>
+    <input type="file" id="zipInput" accept=".zip" style="display:none;" />
+    <div id="fileName" style="color:var(--accent2);margin-bottom:8px;"></div>
+    <button id="convertBtn" disabled>Convert to 1.21.5</button>
+    <div id="progress" class="progress"></div>
+    <div id="error" class="error"></div>
+    <div id="summary" class="summary" style="display:none;"></div>
+  </div>
+  <div class="info">
+    <b>What this tool does:</b>
+    <ul>
+      <li>Updates <i>pack.mcmeta</i> (<b>pack_format: 47</b>)</li>
+      <li>Auto-renames known moved textures (comprehensive <i>renameMap</i>)</li>
+      <li>Splits <i>terrain.png</i> into 16x16 blocks using full <i>nameMap</i></li>
+      <li>Previews all PNGs found/created</li>
+      <li>Lets you download the converted pack</li>
+    </ul>
+    <b>Tip:</b> Drag and drop your old pack, or click the box above.<br>
+    <b>Note:</b> No files are uploaded to a server. All conversion is done in your browser.
+  </div>
+  <div id="pngBrowser"></div>
+  <div class="credits">
+    Tool by <a href="https://themelon.live" target="_blank" rel="noopener">the.melon</a>
+  </div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

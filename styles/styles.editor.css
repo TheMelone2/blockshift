@@ -1,0 +1,322 @@
+/* Styles for the in-browser PNG pixel editor modal */
+.editor-overlay {
+  position: fixed;
+  z-index: 99999;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(24,28,19,0.98);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  backdrop-filter: blur(12px);
+  overflow: auto;
+}
+
+.editor-modal {
+  background: #232d1a;
+  padding: 0 0 18px 0;
+  border-radius: 18px;
+  box-shadow: 0 8px 64px #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 3px solid #aaffaa;
+  min-width: 320px;
+  max-width: 98vw;
+  position: relative;
+  margin: 0 8px;
+}
+
+.editor-dragbar {
+  width: 100%;
+  height: 38px;
+  cursor: move;
+  user-select: none;
+  background: linear-gradient(90deg,#2e3a1f 60%,#232d1a 100%);
+  border-radius: 15px 15px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px 0 18px;
+  font-size: 1rem;
+}
+
+.editor-title {
+  color: #aaffaa;
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60vw;
+}
+
+.editor-close-btn {
+  background: none;
+  border: none;
+  color: #aaffaa;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.editor-close-btn:hover { color: #ff5555; }
+
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0 8px 0;
+  background: #181c13ee;
+  padding: 8px 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px #111;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.editor-tool-btn, .editor-zoom-btn {
+  font-size: 1.2rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 2px solid #4e5c2e;
+  background: #232d1a;
+  color: #aaffaa;
+  cursor: pointer;
+  transition: background 0.2s, border 0.2s, color 0.2s;
+}
+.editor-tool-btn.active, .editor-tool-btn:focus, .editor-tool-btn:hover {
+  background: #4e5c2e;
+  color: #fff;
+}
+.editor-zoom-btn:focus, .editor-zoom-btn:hover {
+  background: #4e5c2e;
+  color: #fff;
+}
+
+.editor-color {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  margin: 0 4px;
+  cursor: pointer;
+}
+
+.editor-size-label {
+  color: #b6c29a;
+  font-size: 0.97rem;
+  margin: 0 2px 0 8px;
+}
+
+.editor-size {
+  width: 38px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 2px solid #4e5c2e;
+  background: #232d1a;
+  color: #aaffaa;
+  padding: 2px 4px;
+  margin-right: 6px;
+}
+
+.editor-status {
+  margin-left: 12px;
+  color: #b6c29a;
+  font-size: 0.95rem;
+  min-width: 120px;
+}
+
+.editor-save-btn, .editor-cancel-btn, .editor-savepack-btn {
+  background: linear-gradient(90deg, #3a4d1a 80%, #232d1a 100%);
+  color: #e6ffe6;
+  border: 2px solid #aaffaa;
+  border-radius: 8px;
+  font-size: 1rem;
+  padding: 7px 18px;
+  margin-left: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s, border 0.2s, color 0.2s;
+}
+.editor-save-btn:hover, .editor-savepack-btn:hover {
+  background: #4e6a2e;
+  color: #fff;
+  border-color: #aaffaa;
+}
+.editor-cancel-btn:hover {
+  background: #333;
+  color: #ff5555;
+  border-color: #ff5555;
+}
+
+.editor-savepack-btn {
+  margin-left: 18px;
+  background: linear-gradient(90deg, #4e5c2e 80%, #232d1a 100%);
+  color: #aaffaa;
+}
+
+.editor-help {
+  color: #b6c29a;
+  font-size: 0.93rem;
+  margin: 8px 0 0 0;
+  text-align: center;
+  line-height: 1.5;
+  max-width: 90vw;
+}
+
+.editor-canvas-wrap {
+  background: #181c13;
+  border: 2px solid #4e5c2e;
+  border-radius: 10px;
+  overflow: auto;
+  max-width: 90vw;
+  max-height: 60vh;
+  position: relative;
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editor-canvas {
+  display: block;
+  margin: 0 auto;
+  background: #232d1a;
+  image-rendering: pixelated;
+  cursor: crosshair;
+  box-shadow: 0 2px #111;
+  border-radius: 6px;
+  border: 2px solid #aaffaa;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.editor-grid-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@media (max-width: 700px) {
+  .editor-modal {
+    min-width: 0;
+    max-width: 99vw;
+    padding: 0 0 10px 0;
+    border-radius: 10px;
+  }
+  .editor-toolbar {
+    flex-direction: column;
+    gap: 8px;
+    padding: 6px 2px;
+    width: 98vw;
+    max-width: 99vw;
+    box-sizing: border-box;
+  }
+  .editor-help {
+    font-size: 0.85rem;
+    max-width: 98vw;
+    word-break: break-word;
+  }
+  .editor-canvas-wrap {
+    max-width: 98vw;
+    max-height: 40vh;
+    border-radius: 8px;
+  }
+  .editor-canvas {
+    max-width: 98vw;
+    max-height: 38vh;
+    border-radius: 6px;
+  }
+  .editor-grid-canvas {
+    max-width: 98vw;
+    max-height: 38vh;
+  }
+  .editor-title {
+    max-width: 60vw;
+    font-size: 0.95rem;
+  }
+  .editor-save-btn, .editor-cancel-btn, .editor-savepack-btn {
+    font-size: 0.95rem;
+    padding: 7px 8vw;
+    min-width: 120px;
+    margin-left: 0;
+    margin-top: 6px;
+  }
+}
+
+@media (max-width: 500px) {
+  .editor-modal {
+    min-width: 0;
+    max-width: 100vw;
+    padding: 0 0 4px 0;
+    border-radius: 6px;
+  }
+  .editor-toolbar {
+    width: 100vw;
+    max-width: 100vw;
+    padding: 2px 0;
+    gap: 4px;
+  }
+  .editor-help {
+    font-size: 0.75rem;
+    max-width: 99vw;
+  }
+  .editor-canvas-wrap {
+    max-width: 99vw;
+    max-height: 28vh;
+    border-radius: 4px;
+  }
+  .editor-canvas {
+    max-width: 99vw;
+    max-height: 26vh;
+    border-radius: 4px;
+  }
+  .editor-grid-canvas {
+    max-width: 99vw;
+    max-height: 26vh;
+  }
+  .editor-title {
+    font-size: 0.8rem;
+    max-width: 38vw;
+  }
+  .editor-save-btn, .editor-cancel-btn, .editor-savepack-btn {
+    font-size: 0.85rem;
+    padding: 7px 4vw;
+    min-width: 90px;
+    margin-left: 0;
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 350px) {
+  .editor-title {
+    font-size: 0.7rem;
+    max-width: 30vw;
+  }
+  .editor-help {
+    font-size: 0.65rem;
+  }
+}
+
+/* Touch-friendly buttons and inputs */
+.editor-toolbar button,
+.editor-toolbar input[type="color"],
+.editor-toolbar input[type="number"] {
+  touch-action: manipulation;
+  font-size: 1.1rem;
+}
+
+.editor-toolbar input[type="number"] {
+  min-width: 36px;
+  font-size: 1rem;
+  padding: 2px 2px;
+}
+
+/* Make dragbar easier to grab on mobile */
+.editor-dragbar {
+  min-height: 38px;
+  font-size: 1rem;
+  padding: 0 6px 0 10px;
+}

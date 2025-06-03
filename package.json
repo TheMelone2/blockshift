@@ -1,0 +1,25 @@
+{
+  "name": "blockshift",
+  "version": "0.0.1",
+  "description": "A browser-based tool to convert and edit old Minecraft texture packs to the 1.21.5 format, with all processing and pixel editing done locally in your browser (mobile-friendly).",
+  "license": "MIT",
+  "author": "the.melon",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "minecraft",
+    "texture-pack",
+    "converter",
+    "editor",
+    "browser",
+    "pixel-editor",
+    "mobile",
+    "jszip"
+  ],
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
