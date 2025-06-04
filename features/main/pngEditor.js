@@ -121,16 +121,27 @@ export function showPNGEditor(blob, filename) {
     // Canvas container (for pan/zoom)
     let canvasWrap = document.createElement("div");
     canvasWrap.className = "editor-canvas-wrap";
+    canvasWrap.style.position = "relative";
+    canvasWrap.style.overflow = "auto";
+    canvasWrap.style.width = "480px";
+    canvasWrap.style.height = "480px";
 
     // Canvas
     let canvas = document.createElement("canvas");
     let ctx = canvas.getContext("2d");
     canvas.className = "editor-canvas";
+    canvas.style.position = "absolute";
+    canvas.style.left = "0";
+    canvas.style.top = "0";
     canvasWrap.appendChild(canvas);
 
     // Pixel grid overlay
     let gridCanvas = document.createElement("canvas");
     gridCanvas.className = "editor-grid-canvas";
+    gridCanvas.style.position = "absolute";
+    gridCanvas.style.left = "0";
+    gridCanvas.style.top = "0";
+    gridCanvas.style.pointerEvents = "none";
     canvasWrap.appendChild(gridCanvas);
 
     // --- State and tool switching ---
@@ -168,19 +179,25 @@ export function showPNGEditor(blob, filename) {
     // Zoom
     function setZoom(z, fit = false) {
       zoom = Math.max(minZoom, Math.min(maxZoom, z));
-      canvas.style.width = imgW * zoom + "px";
-      canvas.style.height = imgH * zoom + "px";
-      gridCanvas.width = canvas.width * zoom;
-      gridCanvas.height = canvas.height * zoom;
-      gridCanvas.style.width = canvas.style.width;
-      gridCanvas.style.height = canvas.style.height;
-      // Pan to center if fit
+      canvas.style.transform = `scale(${zoom})`;
+      gridCanvas.style.transform = `scale(${zoom})`;
+      canvas.style.transformOrigin = "top left";
+      gridCanvas.style.transformOrigin = "top left";
+      canvasWrap.scrollLeft = panX;
+      canvasWrap.scrollTop = panY;
+      gridCanvas.width = imgW;
+      gridCanvas.height = imgH;
+      gridCanvas.style.width = canvas.style.width = imgW + "px";
+      gridCanvas.style.height = canvas.style.height = imgH + "px";
       if (fit) {
-        panX = panY = 0;
-        canvasWrap.scrollLeft =
-          (canvasWrap.scrollWidth - canvasWrap.clientWidth) / 2;
-        canvasWrap.scrollTop =
-          (canvasWrap.scrollHeight - canvasWrap.clientHeight) / 2;
+        let viewW = canvasWrap.clientWidth,
+          viewH = canvasWrap.clientHeight;
+        let scaledW = imgW * zoom,
+          scaledH = imgH * zoom;
+        panX = Math.max(0, (scaledW - viewW) / 2);
+        panY = Math.max(0, (scaledH - viewH) / 2);
+        canvasWrap.scrollLeft = panX;
+        canvasWrap.scrollTop = panY;
       }
       drawGrid();
       updateStatus();
@@ -203,20 +220,22 @@ export function showPNGEditor(blob, filename) {
       let gctx = gridCanvas.getContext("2d");
       gctx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
       if (zoom < 4) return;
+      gctx.save();
       gctx.strokeStyle = "#4e5c2e88";
-      gctx.lineWidth = 1;
+      gctx.lineWidth = 1 / zoom;
       for (let x = 1; x < imgW; ++x) {
         gctx.beginPath();
-        gctx.moveTo(x * zoom, 0);
-        gctx.lineTo(x * zoom, imgH * zoom);
+        gctx.moveTo(x, 0);
+        gctx.lineTo(x, imgH);
         gctx.stroke();
       }
       for (let y = 1; y < imgH; ++y) {
         gctx.beginPath();
-        gctx.moveTo(0, y * zoom);
-        gctx.lineTo(imgW * zoom, y * zoom);
+        gctx.moveTo(0, y);
+        gctx.lineTo(imgW, y);
         gctx.stroke();
       }
+      gctx.restore();
     }
 
     // --- Load image and fit to view ---
@@ -237,11 +256,19 @@ export function showPNGEditor(blob, filename) {
     // --- Drawing and color picking logic ---
     // Drawing logic
     function getPos(e) {
-      let rect = canvas.getBoundingClientRect();
-      let px = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-      let py = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-      let x = Math.floor(px / zoom);
-      let y = Math.floor(py / zoom);
+      // Calculate mouse/touch position
+      let wrapRect = canvasWrap.getBoundingClientRect();
+      let scrollLeft = canvasWrap.scrollLeft;
+      let scrollTop = canvasWrap.scrollTop;
+      let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      let clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      let px = (clientX - wrapRect.left + scrollLeft) / zoom;
+      let py = (clientY - wrapRect.top + scrollTop) / zoom;
+      let x = Math.floor(px);
+      let y = Math.floor(py);
+      // Clamp to image bounds
+      x = Math.max(0, Math.min(imgW - 1, x));
+      y = Math.max(0, Math.min(imgH - 1, y));
       return { x, y };
     }
     function drawAt(e) {
