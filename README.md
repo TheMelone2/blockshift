@@ -65,6 +65,21 @@ Then open [http://localhost:8080](http://localhost:8080).
 - Please keep code modular and easy to extend.
 - See `renameMap.js` and `nameMap.js` for data-driven mappings.
 - See `features/main/pngEditor.js` and `styles.editor.css` for the in-browser editor.
+## Contributing Guidelines
+
+- **Use clear, descriptive commit messages** that explain the purpose of your changes.
+- **Keep code modular and maintainable** - organize logic into ES modules and avoid monolithic files.
+- **Follow the existing code style** for formatting, naming, and structure. Consistency helps everyone
+Meaning:
+  - Use camelCase for variable and function names.
+  - Use PascalCase for class names.
+  - Use single quotes for strings (unless it contains a single quote).
+- **Test your changes thoroughly** before submitting, including edge cases and browser compatibility.
+- **Document new features or changes** in the README or relevant files.
+- **Submit pull requests with detailed descriptions** outlining what was changed and why.
+- **Be respectful and constructive** in code reviews and discussions.
+
+Thank you for helping improve Blockshift!
 
 ## License
 
